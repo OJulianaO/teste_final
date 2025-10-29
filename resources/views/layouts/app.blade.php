@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!-- DEU ERRADOO!!
+  <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -8,45 +9,44 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased">
-    <div class="grid grid-cols-4 h-screen min-h-screen bg-gray-100">
-
-        <!--COLUNA 01 -->
-        <div class="flex flex-col items-center mt-10">
-            <img src="{{ asset('img/logo_sabor_do_brasil.png') }}" alt="Logo Sabor do Brasil" class="w-40 h-auto">
-            <h1 class="text-3xl font-bold text-orange-600" style="font-family: 'Amatic SC', cursive;">Sabor do Brasil</h1>
-            <hr class="border-t border-yellow-600 w-2/3">
-            <div class="mt-5 flex gap-10">
-                <div class="flex-1 p-5 text-center">Likes</div>
-                <div class="flex-1 p-5 text-center">Deslikes</div>
+<body class="font-sans ">
+    <div class="flex-grow container-none mx-auto px-12 p-1">
+        <div class="grid grid-cols-4 w-full gap-10">
+            <div class="items-center">
+                <div class='flex justify-center h-79'>
+                    <img src="/imG/logo/logo_sabor_do_brasil.png" alt="Logo" class=" w-24 h-24 rounded-full mb-4 object-cover">
+                </div>
+                <div class="text-center">
+                    <h4 class="font-monaco font-bold text-lg">Sabor do Brasil</h4>
+                    <hr class="w-40 border-[1.3px] border-orange-500 mx-auto">
+                </div>
+                <div class="grid grid-cols-2  mt-6 justify-center w-full">
+                    <p class="font-semibold text-md mt-4 text-center">LIKE</p>
+                    <p class="font-semibold text-md mt-4 text-center">DESLIKE</p>
+                </div>
             </div>
-        </div>
 
-        <!--COLUNA 02 -->
+            <div class='col-span-2'>
+                <main>
+                    @yield('content')
+                </main>
+            </div>
 
-        <div class="col-span-2 border-x-2 border-yellow-400 flex flex-col items-center mt-10 w-full ">
-            <main>
-                @yield('content')
-            </main>
-        </div>
-
-        <!--COLUNA 03 -->
-
-        <div>
-            <div class="items-center flex flex-col  mt-10">
+            <!--modal
+            <div class="items-center">
                 <button command="show-modal" commandfor="dialog" class="bg-[#d97014] hover:bg-[#b85d10] text-white font-semibold py-2 px-4 rounded">Entrar</button>
 
                 <el-dialog>
                     <dialog id="dialog" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-                        <el-dialog-backdrop class="fixed inset-0 bg-gray-900/20 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+                        <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
                         <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
                             <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-[#ffffff] text-left shadow-xl outline -outline-offset-1 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
@@ -71,23 +71,43 @@
                 </el-dialog>
             </div>
 
-
         </div>
+
     </div>
-    <footer class="bg-orange-600 py-4 text-white justify-item-center px-8 w-full fixed bottom-0 left-0">
-        <div class="grid grid-cols-3">
-            <div class="col-span-1 w-full flex justify-center">Sabor do Brasil | </div>
-            <div class=" w-full flex justify-center gap-20">
-                <a href=""><img src="img/Instagram.svg" alt="Facebook" class="h-5 w-5"> </a>
-                <a href=""><img src="img/Twitter.svg" alt="Twitter" class="h-5 w-5"> </a>
-                <a href=""><img src="img/Whatsapp (1).svg" alt="Instagram" class="h-5 w-5"> </a>
-                <a href=""><img src="img/Globe (1).svg" alt="Globe" class="h-5 w-5"> </a>
+    </div>
+
+    <footer class="bg-[#d97014] text-white px-8 py-8 flex items-center">
+
+        <div class="container grid grid-cols-3">
+
+            <div class="mb-4 text-left">
+                <p class="text-2xl font-bold text-[#ffffff]">Sabor do Brasil</p>
             </div>
-            <div class="col-span-1 w-full flex justify-center">Copyright - 2024
+
+            <div class="flex justify-center pt-1.5 gap-20">
+                <div class="flex justify-center pt-1.5 gap-20">
+                    <a href="">
+                        <img src="imG\icones\Instagram.svg" alt="Instagram" class="h-7 w-7">
+                    </a>
+                    <a href="">
+                        <img src="imG\icones\Twitter.svg" alt="Twitter" class="h-7 w-7">
+                    </a>
+                    <a href="">
+                        <img src="imG\icones\Whatsapp.svg" alt="Whatsapp" class="h-7 w-7">
+                    </a>
+                    <a href="">
+                        <img src="imG\icones\Globe (1).svg" alt="Globe" class="h-7 w-7">
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-1.5 gap-2">
+                <p class="text-2xl font-bold text-white">Copyright-2024</p>
             </div>
         </div>
     </footer>
-    </div>
+
+ <script src="//unpkg.com/alpinejs" defer></script>
 </body>
 
-</html>
+</html> -->
