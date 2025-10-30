@@ -13,7 +13,7 @@
     <main class="min-h-screen">
 
         <!-- LOGIN -->
-        <div id="loginModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+        <div id="loginModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 items-center justify-center">
             <div class="bg-white rounded-lg shadow-lg w-96 mx-2">
                 <div class="flex justify-between items-center px-4 py-2 border-b border-gray-300">
                     <h5 class="text-lg font-semibold">Login</h5>
