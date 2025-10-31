@@ -19,4 +19,14 @@ class publicacao extends Model
     public function comentarios(){
         return $this->hasMany(Comentario::class, 'publicacao_id');
     }
+    
+    public function likes()
+    {
+        return $this->hasMany(\App\Models\Like::class, 'publicacao_id');
+    }
+
+    public function deslikes()
+    {
+        return $this->hasMany(\App\Models\Deslike::class, 'publicacao_id');
+    }
 }

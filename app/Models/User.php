@@ -18,9 +18,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'nome',
+        'nickname',
         'email',
         'password',
+        'foto',
     ];
 
     /**
@@ -45,4 +47,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function comentarios(){
+        return $this->hasMany(Comentario::class);
+    }
+
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
+    public function deslikes(){
+        return $this->hasMany(Deslike::class);
+    }
+
 }

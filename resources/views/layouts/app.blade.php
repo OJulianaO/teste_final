@@ -1,5 +1,4 @@
-<!-- DEU ERRADOO!!
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -9,105 +8,147 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans ">
-    <div class="flex-grow container-none mx-auto px-12 p-1">
-        <div class="grid grid-cols-4 w-full gap-10">
-            <div class="items-center">
-                <div class='flex justify-center h-79'>
-                    <img src="/imG/logo/logo_sabor_do_brasil.png" alt="Logo" class=" w-24 h-24 rounded-full mb-4 object-cover">
+<body class="bg-white text-gray-900">
+
+    <main class="min-h-screen">
+
+        <!-- LOGIN -->
+        <div id="loginModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 items-center justify-items-center">
+            <div class="bg-white rounded-lg shadow-lg w-96 mx-2">
+                <div class="flex justify-between items-center px-4 py-2 border-b border-gray-300">
+                    <h5 class="text-lg font-semibold">Login</h5>
+                    <button type="button" class="text-gray-500 hover:text-gray-700"
+                        onclick="document.getElementById('loginModal').classList.add('hidden')">&times;</button>
                 </div>
-                <div class="text-center">
-                    <h4 class="font-monaco font-bold text-lg">Sabor do Brasil</h4>
-                    <hr class="w-40 border-[1.3px] border-orange-500 mx-auto">
-                </div>
-                <div class="grid grid-cols-2  mt-6 justify-center w-full">
-                    <p class="font-semibold text-md mt-4 text-center">LIKE</p>
-                    <p class="font-semibold text-md mt-4 text-center">DESLIKE</p>
-                </div>
-            </div>
-
-            <div class='col-span-2'>
-                <main>
-                    @yield('content')
-                </main>
-            </div>
-
-            <!--modal
-            <div class="items-center">
-                <button command="show-modal" commandfor="dialog" class="bg-[#d97014] hover:bg-[#b85d10] text-white font-semibold py-2 px-4 rounded">Entrar</button>
-
-                <el-dialog>
-                    <dialog id="dialog" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-                        <el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
-
-                        <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                            <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-[#ffffff] text-left shadow-xl outline -outline-offset-1 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                                <div class="bg-[#ffffff] px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                    <div class="sm:flex sm:items-start">
-                                        <div class="mt-3 w-full text-center">
-                                            <h3 id="dialog-title" class="text-base font-semibold text-black mb-2">Login</h3>
-                                            <div class="mt-2 w-full">
-                                                <input type="email" name="email" id="email" class="w-full rounded-md border-gray-300 shadow-sm p-2" placeholder="Digite seu email">
-
-                                                <input type="password" name="senha" id="senha" class="w-full rounded-md border-gray-300 shadow-sm p-2 mt-4" placeholder="Digite sua senha">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex gap-2 p-2">
-                                        <button type="button" command="close" commandfor="dialog" class="w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-black  border border-[#d97014]">Cancelar</button>
-                                        <button type="button" command="close" commandfor="dialog" class="w-full justify-center rounded-md bg-[#d97014] px-3 py-2 text-sm font-semibold text-white">Enviar</button>
-                                    </div>
-                            </el-dialog-panel>
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <div class="px-4 py-4">
+                        @if($errors->any())
+                        <div class="bg-red-100 text-red-700 px-3 py-2 rounded mb-3">
+                            {{ $errors->first() }}
                         </div>
-                    </dialog>
-                </el-dialog>
-            </div>
+                        @endif
+                        <div class="mb-3">
+                            <x-input-label for="nickname" :value="__('Nickname')" />
+                            <x-text-input id="nickname" class="block mt-1 w-full" type="text" name="nickname" :value="old('nickname')" required autofocus autocomplete="username" />
+                        </div>
+                        <div class="mb-3">
+                            <x-input-label for="password" :value="__('Password')" />
 
+                            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+                        </div>
+                    </div>
+                    <div class="flex justify-end px-4 py-3 border-t border-gray-300 space-x-2">
+                        <button type="button" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                            onclick="document.getElementById('loginModal').classList.add('hidden')">Fechar</button>
+                        <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">Entrar</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
-    </div>
-    </div>
+        <div class="container mx-auto px-4 py-6">
+            <div class="grid grid-cols-4 gap-6">
 
-    <footer class="bg-[#d97014] text-white px-8 py-8 flex items-center">
-
-        <div class="container grid grid-cols-3">
-
-            <div class="mb-4 text-left">
-                <p class="text-2xl font-bold text-[#ffffff]">Sabor do Brasil</p>
-            </div>
-
-            <div class="flex justify-center pt-1.5 gap-20">
-                <div class="flex justify-center pt-1.5 gap-20">
-                    <a href="">
-                        <img src="imG\icones\Instagram.svg" alt="Instagram" class="h-7 w-7">
-                    </a>
-                    <a href="">
-                        <img src="imG\icones\Twitter.svg" alt="Twitter" class="h-7 w-7">
-                    </a>
-                    <a href="">
-                        <img src="imG\icones\Whatsapp.svg" alt="Whatsapp" class="h-7 w-7">
-                    </a>
-                    <a href="">
-                        <img src="imG\icones\Globe (1).svg" alt="Globe" class="h-7 w-7">
-                    </a>
+                <!-- COLUNA 1 -->
+                <div class="flex flex-col items-center space-y-4">
+                    @guest
+                    <img class="rounded mx-auto" src="{{asset('img/logo_sabor_do_brasil.png')}}" alt="logo">
+                    <h5 class="text-center border-b border-black w-full pb-1">Sabor do Brasil</h5>
+                    @endguest
+                    @auth
+                    <img class="rounded-full w-24 h-24 object-cover" src="{{Auth::user()->foto}}" alt="logo">
+                    <h5 class="text-center border-b border-black w-full pb-1">{{Auth::user()->nome}}</h5>
+                    @endauth
+                    <div class="grid grid-cols-2 gap-4 w-full text-center">
+                        <div>
+                            @auth
+                            <h3>{{ $totalLikesUser ?? 0 }}</h3>
+                            @endauth
+                            @guest
+                            <h3>{{ $totalLikes ?? 0 }}</h3>
+                            @endguest
+                            <h6>Likes</h6>
+                        </div>
+                        <div>
+                            @auth
+                            <h3>{{ $totalDislikesUser ?? 0 }}</h3>
+                            @endauth
+                            @guest
+                            <h3>{{ $totalDislikes ?? 0 }}</h3>
+                            @endguest
+                            <h6>Deslikes</h6>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="flex justify-end pt-1.5 gap-2">
-                <p class="text-2xl font-bold text-white">Copyright-2024</p>
+                <!-- CCOLUNA 2 -->
+                <div class="border-l border-r col-span-2 border-black px-4 py-6 space-y-6">
+                    <h5 class="text-center text-lg font-semibold mb-4">Publicações</h5>
+                    @yield('content')
+                </div>
+
+                <!-- COLUNA 3 -->
+                <div class="flex flex-col items-center justify-start">
+                    @guest
+                    <button type="button"
+                        class="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-red-700 text-lg"
+                        onclick="document.getElementById('loginModal').classList.remove('hidden')">
+                        Entrar
+                    </button>
+                    @endguest
+                    @auth
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-red-700 text-lg">
+                            Sair
+                        </button>
+                    </form>
+                    @endauth
+                </div>
+
             </div>
         </div>
+
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-[#d97014] text-white px-8 py-8  grid grid-cols-5 items-center">
+        <div class="mb-4 text-left">
+            <p class="text-2xl font-bold text-[#ffffff]">Sabor do Brasil</p>
+        </div>
+        <div class="flex justify-center pt-1.5 gap-20 col-span-3">
+            <div class="flex justify-center gap-20">
+                <a href="">
+                    <img src="img/Instagram.svg" alt="Instagram" class="h-7 w-7">
+                </a>
+                <a href="">
+                    <img src="img/Twitter.svg" alt="Twitter" class="h-7 w-7">
+                </a>
+                <a href="">
+                    <img src="img/Whatsapp.svg" alt="Whatsapp" class="h-7 w-7">
+                </a>
+                <a href="">
+                    <img src="img/Globe.svg" alt="Globe" class="h-7 w-7">
+                </a>
+            </div>
+        </div>
+        <div class="justify-end text-right pt-1.5 gap-2">
+            <p class="text-2xl font-bold text-white">Copyright-2024</p>
+        </div>
+
     </footer>
 
- <script src="//unpkg.com/alpinejs" defer></script>
 </body>
 
-</html> -->
+</html>

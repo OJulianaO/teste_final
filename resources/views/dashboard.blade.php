@@ -41,7 +41,11 @@
               <div class="grid grid-cols-2 text-sm mb-2">
                 <p class="text-left">{{$publicacao->local}}</p>
                 <p class="text-right">{{$publicacao->cidade}}</p>
+                @auth
+                  <p>Test de login</p>
+                @endauth
               </div>
+              <!-- like e dislike-->
               <div class="text-xs text-gray-500 mb-2">
                 Likes: {{ $publicacao->likes }} | Dislikes: {{ $publicacao->dislikes }}
               </div>
@@ -78,6 +82,8 @@
                 </button>
                 @endauth
 
+                <!-- COMENTARIOS-->
+
                 <a href="{{ route('comentarios.toggle', $publicacao->id) }}" class="p-2 bg-gray-100 rounded flex items-center gap-1">
                   <img src="{{ asset('img/chat.svg') }}" alt="chat">
                   <small>({{ $publicacao->comentarios->count() }})</small>
@@ -97,15 +103,12 @@
                   <div class="flex justify-between items-start">
                     <p class="mb-1 text-sm">{{ $comentario->texto }}</p>
                     <div class="flex gap-1">
-                      <button class="p-1 border border-blue-500 rounded" data-collapse-target="#editForm{{ $comentario->id }}">
-                        <img src="{{ asset('img/lapis_editar.svg') }}" alt="Editar" width="14">
-                      </button>
                       <form method="POST" action="{{ route('comentario.destroy', $comentario->id) }}">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="p-1 border border-red-500 rounded"
+                        <button type="submit" class="p-1 borde bg-white-500  hover:bg-gray-600 rounded"
                           onclick="return confirm('Tem certeza que deseja excluir este comentário?')">
-                          <img src="{{ asset('img/lixeira_deletar.svg') }}" alt="Excluir" width="14">
+                          <img src="{{ asset('img/lixo.png') }}" alt="Excluir" width="14">
                         </button>
                       </form>
                     </div>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Publicacao;
+use App\Models\Like;
+use App\Models\Deslike;
 use App\Models\Empresa;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,53 +15,44 @@ class PublicacaoController extends Controller
     public function index()
     {
         $publicacoes = Publicacao::all();
-        return view('home', compact('publicacoes'));
+        $totalLikes = Like::count();
+        $totalDislikes = Deslike::count();
+        $totalLikesUser = Like::where('user_id', auth()->id() )->count();
+        $totalDislikesUser = Deslike::where('user_id', auth()->id())->count();
+
+        return view('index', compact('publicacoes','totalLikes', 'totalDislikes','totalLikesUser','totalDislikesUser'));
     }
 
-   public function like($id)
+    public function like(Publicacao $publicacao)
     {
-        if (!Auth::check()) {
-            return redirect()->back();
+        $user = auth()->user();
+        if ($publicacao->likes()->where('user_id', $user->id)->exists()) {
+            $publicacao->likes()->where('user_id', $user->id)->delete();
+        } else {
+            if ($publicacao->deslikes()->where('user_id', $user->id)->exists()) {
+                $publicacao->deslikes()->where('user_id', $user->id)->delete();
+            }
+            $publicacao->likes()->create(['user_id' => $user->id]);
         }
 
-        $publicacao = Publicacao::find($id);
-        
-        if ($publicacao) {
-            $publicacao->likes = $publicacao->likes + 1;
-            $publicacao->save();
-            
-            session(["liked_$id" => true]);
-        }
-        $publicacao = Publicacao::findOrFail($id);
-    
-        if (!session("liked_$id") && !session("disliked_$id")) {
-        $publicacao->increment('likes');
-        session(["liked_$id" => true]);
-        }
 
-        return redirect()->back();
+
+        return back();
     }
 
-    public function dislike($id)
+    public function deslike(Publicacao $publicacao)
     {
-        if (!Auth::check()) {
-            return redirect()->back();
+        $user = auth()->user();
+        if ($publicacao->deslikes()->where('user_id', $user->id)->exists()) {
+            $publicacao->deslikes()->where('user_id', $user->id)->delete(); // remove deslike
+        } else {
+            if ($publicacao->likes()->where('user_id', $user->id)->exists()) {
+                $publicacao->likes()->where('user_id', $user->id)->delete();
+            }
+            $publicacao->deslikes()->create(['user_id' => $user->id]);
         }
 
-        $publicacao = Publicacao::find($id);
-        
-        if ($publicacao) {
-            $publicacao->dislikes = $publicacao->dislikes + 1;
-            $publicacao->save();
-            
-            session(["disliked_$id" => true]);
-        }
-        
-        if (!session("disliked_$id") && !session("liked_$id")) {
-        $publicacao->increment('dislikes');
-        session(["disliked_$id" => true]);
-        }    
-        return redirect()->back();
+        return back();
     }
 
 }
